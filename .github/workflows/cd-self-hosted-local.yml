@@ -1,0 +1,51 @@
+name: Local CD Deployment (Self-Hosted Runner Option)
+
+# This optional workflow enables 100% automated Continuous Deployment
+# to your local Minikube / Docker machine without needing cloud hosting.
+# Requires registering your local machine as a GitHub Self-Hosted Runner:
+# (GitHub Repo -> Settings -> Actions -> Runners -> New self-hosted runner)
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["CI/CD Pipeline (Build, Test & Push)"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy-to-local-cluster:
+    name: Continuous Deployment to Local Minikube
+    runs-on: self-hosted # Executes directly on your local machine
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify Minikube & Kubectl Environment
+        run: |
+          echo "Checking local Minikube cluster..."
+          kubectl cluster-info || minikube start
+
+      - name: Apply Kubernetes Manifests
+        run: |
+          echo "Deploying updated manifests to local cluster..."
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+
+      - name: Update Deployment Image
+        run: |
+          IMAGE_TAG="${{ secrets.DOCKERHUB_USERNAME }}/cicd-web-app:latest"
+          echo "Updating deployment image to: ${IMAGE_TAG}"
+          kubectl set image deployment/cicd-web-deployment web-container="${IMAGE_TAG}"
+
+      - name: Await Zero-Downtime Rollout
+        run: |
+          kubectl rollout status deployment/cicd-web-deployment --timeout=120s
+
+      - name: Run Smoke Healthcheck
+        run: |
+          NODE_PORT=$(kubectl get svc cicd-web-service -o jsonpath='{.spec.ports[0].nodePort}')
+          MINIKUBE_IP=$(minikube ip 2>/dev/null || echo "127.0.0.1")
+          echo "App is live at http://${MINIKUBE_IP}:${NODE_PORT}"
+          curl -f "http://${MINIKUBE_IP}:${NODE_PORT}/health" || curl -f "http://127.0.0.1:3000/health"
