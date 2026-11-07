@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node --test tests/**/*.test.js",
+    "test": "node --test tests/app.test.js",
     "lint": "node -c src/app.js src/server.js tests/app.test.js"
   },
   "keywords": [
