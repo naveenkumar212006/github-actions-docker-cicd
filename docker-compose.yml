@@ -1,6 +1,6 @@
 services:
   web:
-    image: ${DOCKER_IMAGE:-cicd-local-app:latest}
+    image: ${DOCKER_IMAGE:-naveenkumar21032006/cicd-web-app:latest}
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,3 +20,4 @@ services:
     labels:
       org.opencontainers.image.title: "CI/CD Docker Web App"
       org.opencontainers.image.description: "Automated Docker CI/CD deployment with GitHub Actions"
+

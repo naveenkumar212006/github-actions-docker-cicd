@@ -118,3 +118,4 @@ jobs:
           echo "kubectl rollout status deployment/cicd-web-deployment" >> $GITHUB_STEP_SUMMARY
           echo "minikube service cicd-web-service" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+

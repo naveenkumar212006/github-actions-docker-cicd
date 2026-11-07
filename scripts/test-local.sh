@@ -12,3 +12,4 @@ echo "2. Running automated unit & integration tests..."
 npm test
 
 echo "✅ All tests passed successfully!"
+

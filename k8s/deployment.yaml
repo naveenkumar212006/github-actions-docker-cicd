@@ -22,8 +22,8 @@ spec:
     spec:
       containers:
         - name: web-container
-          # Replace <YOUR_DOCKERHUB_USERNAME> with your Docker Hub handle or use local Minikube image
-          image: cicd-web-app:latest
+          # Docker Hub Image: https://hub.docker.com/r/naveenkumar21032006/cicd-web-app
+          image: naveenkumar21032006/cicd-web-app:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
@@ -56,3 +56,4 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 2
             successThreshold: 1
+

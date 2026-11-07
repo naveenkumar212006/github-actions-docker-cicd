@@ -18,7 +18,7 @@ if ! docker info > /dev/null 2>&1; then
   exit 1
 fi
 
-IMAGE_NAME="${1:-cicd-local-app:latest}"
+IMAGE_NAME="${1:-naveenkumar21032006/cicd-web-app:latest}"
 echo -e "${YELLOW}Deploying image: ${IMAGE_NAME}${NC}"
 
 # Stop existing container if running
@@ -59,3 +59,4 @@ echo -e "${GREEN}👉 Open in browser: http://localhost:3000${NC}"
 echo -e "${GREEN}👉 Health Endpoint: http://localhost:3000/health${NC}"
 echo -e "${GREEN}👉 System Metrics:  http://localhost:3000/api/info${NC}"
 echo -e "${GREEN}====================================================${NC}"
+

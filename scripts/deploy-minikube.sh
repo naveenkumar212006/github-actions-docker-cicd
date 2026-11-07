@@ -33,8 +33,8 @@ else
   echo -e "${GREEN}Minikube is already running.${NC}"
 fi
 
-# Optional Docker Hub or local image
-IMAGE_NAME="${1:-}"
+# Default to user Docker Hub image
+IMAGE_NAME="${1:-naveenkumar21032006/cicd-web-app:latest}"
 
 if [[ -z "$IMAGE_NAME" ]]; then
   echo -e "${YELLOW}No external image specified. Pointing shell to Minikube Docker daemon & building locally...${NC}"
@@ -69,3 +69,4 @@ echo -e "${GREEN}====================================================${NC}"
 echo -e "${GREEN}👉 Access the app at: ${APP_URL}${NC}"
 echo -e "${GREEN}👉 Or run: minikube service cicd-web-service${NC}"
 echo -e "${GREEN}====================================================${NC}"
+

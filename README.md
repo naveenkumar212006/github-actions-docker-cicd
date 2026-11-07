@@ -180,3 +180,4 @@ minikube service cicd-web-service
 - **Micro-footprint**: Alpine Linux base ensures minimal image size (~50MB) and zero bloat.
 - **Zero-Dependency Architecture**: Built using native Node.js libraries, removing third-party vulnerability vectors.
 - **K8s Resiliency**: Includes rolling updates with 0 downtime, liveness probes, and readiness probes.
+

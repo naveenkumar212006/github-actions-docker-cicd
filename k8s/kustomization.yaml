@@ -7,5 +7,6 @@ resources:
 
 images:
   - name: cicd-web-app
-    newName: cicd-web-app
+    newName: naveenkumar21032006/cicd-web-app
     newTag: latest
+
