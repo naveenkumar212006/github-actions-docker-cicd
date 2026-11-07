@@ -38,3 +38,4 @@ k8s-validate: ## Validate Kubernetes YAML manifests with dry-run
 
 clean: docker-stop ## Clean up temporary logs and containers
 	rm -rf coverage .nyc_output
+
