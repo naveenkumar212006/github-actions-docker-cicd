@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <style>
+      .bg { fill: #0f172a; }
+      .browser-bar { fill: #1e293b; stroke: #334155; stroke-width: 1; }
+      .browser-dot-r { fill: #ef4444; }
+      .browser-dot-y { fill: #f59e0b; }
+      .browser-dot-g { fill: #10b981; }
+      .address-bar { fill: #0f172a; stroke: #475569; stroke-width: 1; rx: 6px; }
+      .card { fill: #1e293b; stroke: #334155; stroke-width: 1; rx: 12px; }
+      .card-sub { fill: #0b1120; stroke: #1e293b; stroke-width: 1; rx: 8px; }
+      .badge-bg { fill: rgba(34, 197, 94, 0.15); stroke: rgba(34, 197, 94, 0.4); stroke-width: 1; rx: 20px; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 800; font-size: 28px; fill: #38bdf8; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; fill: #94a3b8; }
+      .card-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; fill: #94a3b8; letter-spacing: 1px; }
+      .metric-main { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 26px; font-weight: 700; fill: #f8fafc; }
+      .metric-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #64748b; }
+      .btn-primary { fill: #2563eb; rx: 6px; }
+      .btn-sec { fill: #334155; rx: 6px; }
+      .btn-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; fill: #ffffff; }
+      .badge-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; fill: #22c55e; }
+    </style>
+  </defs>
+
+  <!-- Browser Window Wrapper -->
+  <rect width="1200" height="780" rx="12" fill="#090d16" />
+  
+  <!-- Browser Chrome Header -->
+  <rect x="0" y="0" width="1200" height="52" rx="12" class="browser-bar" />
+  <rect x="0" y="40" width="1200" height="12" fill="#1e293b" />
+  
+  <!-- Window Controls -->
+  <circle cx="28" cy="26" r="6" class="browser-dot-r" />
+  <circle cx="48" cy="26" r="6" class="browser-dot-y" />
+  <circle cx="68" cy="26" r="6" class="browser-dot-g" />
+
+  <!-- Address Bar -->
+  <rect x="180" y="11" width="840" height="30" class="address-bar" />
+  <text x="200" y="31" font-family="monospace" font-size="13" fill="#38bdf8">🔒 http://localhost:3000 (Local Docker Container / Minikube)</text>
+
+  <!-- App Body Canvas -->
+  <rect x="20" y="68" width="1160" height="692" rx="8" class="bg" />
+
+  <!-- Live Status Badge -->
+  <g transform="translate(480, 95)">
+    <rect width="240" height="34" class="badge-bg" />
+    <circle cx="20" cy="17" r="5" fill="#22c55e" />
+    <text x="36" y="22" class="badge-text">DEPLOYMENT LIVE &amp; HEALTHY</text>
+  </g>
+
+  <!-- Header Title -->
+  <text x="600" y="165" text-anchor="middle" class="title-text">CI/CD Pipeline with Docker &amp; GitHub Actions</text>
+  <text x="600" y="195" text-anchor="middle" class="subtitle">Self-contained, automated build, test &amp; local deployment workflow (No Cloud Needed)</text>
+
+  <!-- Pipeline Stages Banner -->
+  <rect x="70" y="225" width="1060" height="110" class="card" />
+  <text x="95" y="255" font-family="sans-serif" font-weight="700" font-size="15" fill="#f8fafc">🚀 CI/CD Workflow Stages (Zero Cloud Required)</text>
+
+  <!-- Step 1 -->
+  <rect x="95" y="272" width="200" height="50" class="card-sub" />
+  <text x="110" y="290" font-family="sans-serif" font-weight="700" font-size="11" fill="#38bdf8">STAGE 1: GITHUB ACTIONS</text>
+  <text x="110" y="308" font-family="sans-serif" font-size="12" fill="#94a3b8">Lint &amp; Unit Tests (Node 20/22)</text>
+
+  <!-- Arrow 1 -->
+  <text x="310" y="302" font-family="sans-serif" font-weight="bold" font-size="18" fill="#475569">→</text>
+
+  <!-- Step 2 -->
+  <rect x="345" y="272" width="200" height="50" class="card-sub" />
+  <text x="360" y="290" font-family="sans-serif" font-weight="700" font-size="11" fill="#38bdf8">STAGE 2: DOCKER BUILD</text>
+  <text x="360" y="308" font-family="sans-serif" font-size="12" fill="#94a3b8">Multi-arch Buildx Engine</text>
+
+  <!-- Arrow 2 -->
+  <text x="560" y="302" font-family="sans-serif" font-weight="bold" font-size="18" fill="#475569">→</text>
+
+  <!-- Step 3 -->
+  <rect x="595" y="272" width="200" height="50" class="card-sub" />
+  <text x="610" y="290" font-family="sans-serif" font-weight="700" font-size="11" fill="#38bdf8">STAGE 3: DOCKER HUB</text>
+  <text x="610" y="308" font-family="sans-serif" font-size="12" fill="#94a3b8">Free Public Registry Push</text>
+
+  <!-- Arrow 3 -->
+  <text x="810" y="302" font-family="sans-serif" font-weight="bold" font-size="18" fill="#475569">→</text>
+
+  <!-- Step 4 -->
+  <rect x="845" y="272" width="260" height="50" class="card-sub" />
+  <text x="860" y="290" font-family="sans-serif" font-weight="700" font-size="11" fill="#22c55e">STAGE 4: LOCAL RUNTIME</text>
+  <text x="860" y="308" font-family="sans-serif" font-size="12" fill="#94a3b8">Minikube Pods / Docker Compose</text>
+
+  <!-- 4 Metric Cards Grid -->
+  <!-- Card 1: Hostname -->
+  <rect x="70" y="355" width="245" height="130" class="card" />
+  <text x="95" y="385" class="card-label">CONTAINER HOSTNAME</text>
+  <text x="95" y="425" class="metric-main">docker-cicd-app</text>
+  <text x="95" y="455" class="metric-sub">Platform: linux (x64 / arm64)</text>
+
+  <!-- Card 2: Uptime -->
+  <rect x="342" y="355" width="245" height="130" class="card" />
+  <text x="367" y="385" class="card-label">SERVICE UPTIME</text>
+  <text x="367" y="425" class="metric-main" fill="#22c55e">240s</text>
+  <text x="367" y="455" class="metric-sub">Liveness: healthy &amp; responding</text>
+
+  <!-- Card 3: Memory -->
+  <rect x="614" y="355" width="245" height="130" class="card" />
+  <text x="639" y="385" class="card-label">MEMORY CONSUMPTION</text>
+  <text x="639" y="425" class="metric-main">31.25 MB</text>
+  <text x="639" y="455" class="metric-sub">Heap: 7.82 MB (Alpine Linux)</text>
+
+  <!-- Card 4: Environment -->
+  <rect x="885" y="355" width="245" height="130" class="card" />
+  <text x="910" y="385" class="card-label">RUNTIME ENVIRONMENT</text>
+  <text x="910" y="425" class="metric-main" fill="#38bdf8">production</text>
+  <text x="910" y="455" class="metric-sub">Node.js 20.18.0 &bull; 2 Replicas</text>
+
+  <!-- Endpoints & Probe Section -->
+  <rect x="70" y="505" width="1060" height="135" class="card" />
+  <text x="95" y="538" font-family="sans-serif" font-weight="700" font-size="16" fill="#f8fafc">⚡ Active Endpoints &amp; Kubernetes Health Probes</text>
+  <text x="95" y="562" class="metric-sub">Built-in endpoints used by Minikube liveness/readiness probes and Docker daemon healthchecks:</text>
+
+  <!-- Buttons -->
+  <rect x="95" y="582" width="220" height="38" class="btn-primary" />
+  <text x="115" y="606" class="btn-text">GET /health (Status: 200 UP)</text>
+
+  <rect x="330" y="582" width="220" height="38" class="btn-sec" />
+  <text x="350" y="606" class="btn-text">GET /api/info (JSON Metrics)</text>
+
+  <rect x="565" y="582" width="180" height="38" class="btn-sec" />
+  <text x="590" y="606" class="btn-text">GET /api/ping (Pong)</text>
+
+  <!-- Footer Info -->
+  <text x="600" y="700" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#64748b">
+    Automated Continuous Integration &amp; Deployment &bull; GitHub Actions &bull; Docker Hub &bull; Minikube &bull; No Cloud Required
+  </text>
+</svg>

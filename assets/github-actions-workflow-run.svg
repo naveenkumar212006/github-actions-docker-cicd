@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .header-bar { fill: #161b22; stroke: #30363d; stroke-width: 1; }
+      .card { fill: #161b22; stroke: #30363d; stroke-width: 1; rx: 8px; }
+      .status-pill { fill: rgba(46, 160, 67, 0.15); stroke: #2ea043; stroke-width: 1; rx: 14px; }
+      .status-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 600; fill: #3fb950; }
+      .gh-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 20px; font-weight: 700; fill: #f0f6fc; }
+      .gh-meta { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #8b949e; }
+      .job-header { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 600; fill: #c9d1d9; }
+      .step-row { fill: #21262d; stroke: #30363d; stroke-width: 1; rx: 6px; }
+      .step-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #c9d1d9; }
+      .step-time { font-family: monospace; font-size: 12px; fill: #8b949e; }
+      .code-box { fill: #0d1117; stroke: #30363d; stroke-width: 1; rx: 6px; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="780" rx="8" class="bg" />
+
+  <!-- GitHub Actions Header Bar -->
+  <rect x="0" y="0" width="1200" height="110" class="header-bar" />
+  
+  <!-- Status Icon & Title -->
+  <circle cx="50" cy="45" r="16" fill="#2ea043" />
+  <path d="M42 45 L48 51 L58 39" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <text x="80" y="42" class="gh-title">CI/CD Pipeline (Build, Test &amp; Push) #14</text>
+  <text x="80" y="65" class="gh-meta">Commit: 7f3b89a feat: complete automated Docker build &amp; local deploy &bull; Branch: main &bull; Event: push</text>
+  <text x="80" y="88" class="gh-meta">Triggered by @developer &bull; Total duration: 1m 24s &bull; Runner: ubuntu-latest</text>
+
+  <!-- Workflow Graph / Jobs Overview -->
+  <rect x="40" y="130" width="1120" height="120" class="card" />
+  <text x="60" y="160" font-family="sans-serif" font-weight="700" font-size="14" fill="#8b949e">WORKFLOW GRAPH</text>
+
+  <!-- Job Node 1: test (Node 20.x) -->
+  <g transform="translate(60, 175)">
+    <rect width="250" height="50" rx="25" fill="#21262d" stroke="#2ea043" stroke-width="2" />
+    <circle cx="25" cy="25" r="10" fill="#2ea043" />
+    <path d="M21 25 L24 28 L29 21" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="45" y="25" class="step-text" font-weight="600">Run Lint &amp; Tests (20.x)</text>
+    <text x="45" y="40" class="step-time">Passed in 18s</text>
+  </g>
+
+  <!-- Connector Line 1 -->
+  <line x1="310" y1="200" x2="355" y2="200" stroke="#2ea043" stroke-width="2" />
+
+  <!-- Job Node 2: test (Node 22.x) -->
+  <g transform="translate(355, 175)">
+    <rect width="250" height="50" rx="25" fill="#21262d" stroke="#2ea043" stroke-width="2" />
+    <circle cx="25" cy="25" r="10" fill="#2ea043" />
+    <path d="M21 25 L24 28 L29 21" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="45" y="25" class="step-text" font-weight="600">Run Lint &amp; Tests (22.x)</text>
+    <text x="45" y="40" class="step-time">Passed in 17s</text>
+  </g>
+
+  <!-- Connector Line 2 -->
+  <line x1="605" y1="200" x2="650" y2="200" stroke="#2ea043" stroke-width="2" />
+
+  <!-- Job Node 3: docker-build-push -->
+  <g transform="translate(650, 175)">
+    <rect width="280" height="50" rx="25" fill="#21262d" stroke="#2ea043" stroke-width="2" />
+    <circle cx="25" cy="25" r="10" fill="#2ea043" />
+    <path d="M21 25 L24 28 L29 21" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="45" y="25" class="step-text" font-weight="600">Build &amp; Push Docker Image</text>
+    <text x="45" y="40" class="step-time">Passed in 49s</text>
+  </g>
+
+  <!-- Connector Line 3 -->
+  <line x1="930" y1="200" x2="975" y2="200" stroke="#2ea043" stroke-width="2" />
+
+  <!-- Job Node 4: Summary -->
+  <g transform="translate(975, 175)">
+    <rect width="165" height="50" rx="25" fill="#21262d" stroke="#38bdf8" stroke-width="2" />
+    <circle cx="25" cy="25" r="10" fill="#38bdf8" />
+    <text x="21" y="29" font-family="sans-serif" font-weight="bold" font-size="12" fill="#ffffff">✓</text>
+    <text x="45" y="25" class="step-text" font-weight="600">Step Summary</text>
+    <text x="45" y="40" class="step-time">Ready for local</text>
+  </g>
+
+  <!-- Step Breakdown Panel -->
+  <rect x="40" y="270" width="1120" height="480" class="card" />
+
+  <!-- Panel Header -->
+  <text x="60" y="305" class="job-header">Job: Build &amp; Push Docker Image &bull; Completed Steps Breakdown</text>
+
+  <!-- Step 1 -->
+  <rect x="60" y="325" width="1080" height="42" class="step-row" />
+  <circle cx="85" cy="346" r="8" fill="#2ea043" />
+  <text x="105" y="351" class="step-text">Set up job &amp; initialize ubuntu-latest runner</text>
+  <text x="1100" y="351" text-anchor="end" class="step-time">3s</text>
+
+  <!-- Step 2 -->
+  <rect x="60" y="375" width="1080" height="42" class="step-row" />
+  <circle cx="85" cy="396" r="8" fill="#2ea043" />
+  <text x="105" y="401" class="step-text">Check out repository (actions/checkout@v4)</text>
+  <text x="1100" y="401" text-anchor="end" class="step-time">2s</text>
+
+  <!-- Step 3 -->
+  <rect x="60" y="425" width="1080" height="42" class="step-row" />
+  <circle cx="85" cy="446" r="8" fill="#2ea043" />
+  <text x="105" y="451" class="step-text">Set up QEMU &amp; Docker Buildx (docker/setup-buildx-action@v3)</text>
+  <text x="1100" y="451" text-anchor="end" class="step-time">6s</text>
+
+  <!-- Step 4 -->
+  <rect x="60" y="475" width="1080" height="42" class="step-row" />
+  <circle cx="85" cy="496" r="8" fill="#2ea043" />
+  <text x="105" y="501" class="step-text">Log in to Docker Hub (docker/login-action@v3) via DOCKERHUB_TOKEN</text>
+  <text x="1100" y="501" text-anchor="end" class="step-time">3s</text>
+
+  <!-- Step 5: Highlighted Build Step -->
+  <rect x="60" y="525" width="1080" height="125" class="code-box" />
+  <circle cx="85" cy="548" r="8" fill="#2ea043" />
+  <text x="105" y="553" class="step-text" font-weight="700">Build and Push Docker Image (docker/build-push-action@v5)</text>
+  <text x="1100" y="553" text-anchor="end" class="step-time">32s</text>
+  
+  <text x="105" y="580" font-family="monospace" font-size="12" fill="#58a6ff">#10 [internal] load build context: transferring context: 4.12kB done</text>
+  <text x="105" y="600" font-family="monospace" font-size="12" fill="#8b949e">#11 [2/4] COPY package*.json ./ (cached)</text>
+  <text x="105" y="620" font-family="monospace" font-size="12" fill="#8b949e">#12 [3/4] COPY src/ ./src/ (cached)</text>
+  <text x="105" y="640" font-family="monospace" font-size="12" fill="#3fb950">#15 pushing image docker.io/yourusername/cicd-web-app:latest with digest sha256:d8a94bc...</text>
+
+  <!-- Step 6 -->
+  <rect x="60" y="660" width="1080" height="42" class="step-row" />
+  <circle cx="85" cy="681" r="8" fill="#2ea043" />
+  <text x="105" y="686" class="step-text">Write CI/CD Step Summary &amp; Local Minikube Deployment Instructions</text>
+  <text x="1100" y="686" text-anchor="end" class="step-time">1s</text>
+
+  <!-- Step 7 -->
+  <rect x="60" y="710" width="1080" height="28" fill="none" />
+  <text x="105" y="728" font-family="sans-serif" font-size="12" fill="#8b949e">Post cleanup &amp; complete job execution &bull; All 7 steps succeeded with exit code 0</text>
+</svg>

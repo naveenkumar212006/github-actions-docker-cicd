@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" width="1100" height="520">
+  <defs>
+    <style>
+      .bg { fill: #0f172a; rx: 12px; }
+      .box { fill: #1e293b; stroke: #334155; stroke-width: 1.5; rx: 10px; }
+      .box-focus { fill: #1e293b; stroke: #38bdf8; stroke-width: 2; rx: 10px; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 22px; font-weight: 800; fill: #f8fafc; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; fill: #94a3b8; }
+      .node-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #f8fafc; }
+      .node-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #94a3b8; }
+      .badge-tag { font-family: monospace; font-size: 11px; font-weight: 600; fill: #38bdf8; }
+      .arrow { stroke: #38bdf8; stroke-width: 2; fill: none; stroke-dasharray: 4; }
+    </style>
+  </defs>
+
+  <rect width="1100" height="520" class="bg" />
+
+  <!-- Diagram Title -->
+  <text x="550" y="45" text-anchor="middle" class="title">End-to-End CI/CD Pipeline Architecture (No Cloud Needed)</text>
+  <text x="550" y="70" text-anchor="middle" class="subtitle">From Local Commit → GitHub Actions → Docker Hub → Local Deployment (Minikube / Docker)</text>
+
+  <!-- Node 1: Local Developer / Git -->
+  <rect x="50" y="120" width="200" height="240" class="box" />
+  <circle cx="150" cy="170" r="30" fill="#2563eb" opacity="0.2" />
+  <text x="150" y="178" text-anchor="middle" font-size="28">💻</text>
+  <text x="150" y="225" text-anchor="middle" class="node-title">1. Code &amp; Commit</text>
+  <text x="150" y="250" text-anchor="middle" class="node-desc">Local Git Repository</text>
+  <text x="150" y="270" text-anchor="middle" class="badge-tag">git push origin main</text>
+  <text x="150" y="310" text-anchor="middle" class="node-desc">Triggers automated</text>
+  <text x="150" y="328" text-anchor="middle" class="node-desc">GitHub Webhook</text>
+
+  <!-- Node 2: GitHub Actions -->
+  <rect x="300" y="100" width="230" height="280" class="box-focus" />
+  <circle cx="415" cy="155" r="30" fill="#38bdf8" opacity="0.2" />
+  <text x="415" y="163" text-anchor="middle" font-size="28">⚡</text>
+  <text x="415" y="210" text-anchor="middle" class="node-title">2. GitHub Actions</text>
+  <text x="415" y="235" text-anchor="middle" class="badge-tag">ubuntu-latest CI/CD</text>
+  <text x="415" y="265" text-anchor="middle" class="node-desc">✔ Run Linter &amp; Tests (20/22)</text>
+  <text x="415" y="290" text-anchor="middle" class="node-desc">✔ Set up Docker Buildx</text>
+  <text x="415" y="315" text-anchor="middle" class="node-desc">✔ Multi-arch Container Build</text>
+  <text x="415" y="340" text-anchor="middle" class="node-desc">✔ Secure Docker Hub Login</text>
+
+  <!-- Node 3: Docker Hub Registry -->
+  <rect x="580" y="120" width="210" height="240" class="box" />
+  <circle cx="685" cy="170" r="30" fill="#0284c7" opacity="0.2" />
+  <text x="685" y="178" text-anchor="middle" font-size="28">🐳</text>
+  <text x="685" y="225" text-anchor="middle" class="node-title">3. Docker Hub</text>
+  <text x="685" y="250" text-anchor="middle" class="node-desc">Free Container Registry</text>
+  <text x="685" y="275" text-anchor="middle" class="badge-tag">&lt;user&gt;/cicd-web-app</text>
+  <text x="685" y="310" text-anchor="middle" class="node-desc">Stores image layers,</text>
+  <text x="685" y="328" text-anchor="middle" class="node-desc">tags: latest &amp; sha-xxxx</text>
+
+  <!-- Node 4: Local Runtime (Minikube / Docker) -->
+  <rect x="840" y="100" width="210" height="280" class="box-focus" />
+  <circle cx="945" cy="155" r="30" fill="#22c55e" opacity="0.2" />
+  <text x="945" y="163" text-anchor="middle" font-size="28">☸️</text>
+  <text x="945" y="210" text-anchor="middle" class="node-title">4. Local Deployment</text>
+  <text x="945" y="235" text-anchor="middle" class="badge-tag">Zero Cloud Costs</text>
+  <text x="945" y="265" text-anchor="middle" class="node-desc">Option A: Minikube (2 Pods)</text>
+  <text x="945" y="290" text-anchor="middle" class="node-desc">Option B: Docker Compose</text>
+  <text x="945" y="315" text-anchor="middle" class="node-desc">Health Check: /health (200)</text>
+  <text x="945" y="340" text-anchor="middle" class="node-desc">Exposed: http://localhost:3000</text>
+
+  <!-- Connectors -->
+  <!-- 1 -> 2 -->
+  <line x1="250" y1="240" x2="300" y2="240" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polygon points="295,236 303,240 295,244" fill="#38bdf8" />
+
+  <!-- 2 -> 3 -->
+  <line x1="530" y1="240" x2="580" y2="240" stroke="#38bdf8" stroke-width="2" />
+  <polygon points="575,236 583,240 575,244" fill="#38bdf8" />
+
+  <!-- 3 -> 4 -->
+  <line x1="790" y1="240" x2="840" y2="240" stroke="#22c55e" stroke-width="2" />
+  <polygon points="835,236 843,240 835,244" fill="#22c55e" />
+
+  <!-- Bottom Workflow Highlights -->
+  <rect x="50" y="420" width="1000" height="65" rx="8" fill="#1e293b" stroke="#334155" />
+  <text x="80" y="445" font-family="sans-serif" font-weight="700" font-size="13" fill="#38bdf8">💡 Key Benefits of this Pipeline:</text>
+  <text x="80" y="468" font-family="sans-serif" font-size="12" fill="#94a3b8">
+    100% Free &bull; No AWS/GCP/Azure bill &bull; GitHub Actions cloud runners execute tests &amp; builds &bull; Local Minikube pulls and serves the app locally with zero latency.
+  </text>
+</svg>
