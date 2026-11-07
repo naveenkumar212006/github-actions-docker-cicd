@@ -1,183 +1,223 @@
 # Production CI/CD Pipeline with GitHub Actions & Docker (No Cloud Needed)
 
-[![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-blue?logo=github-actions)](.github/workflows/ci-cd.yml)
-[![Docker](https://img.shields.io/badge/Docker-Multi--stage-2496ED?logo=docker)](Dockerfile)
-[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-Registry-0db7ed?logo=docker)](https://hub.docker.com)
-[![Kubernetes](https://img.shields.io/badge/Kubernetes-Minikube-326CE5?logo=kubernetes)](k8s/)
+[![CI/CD Pipeline](https://github.com/naveenkumar212006/github-actions-docker-cicd/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/naveenkumar212006/github-actions-docker-cicd/actions/workflows/ci-cd.yml)
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-naveenkumar21032006%2Fcicd--web--app-0db7ed?logo=docker&logoColor=white)](https://hub.docker.com/r/naveenkumar21032006/cicd-web-app)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-Minikube-326CE5?logo=kubernetes&logoColor=white)](k8s/)
+[![Node.js](https://img.shields.io/badge/Node.js-20.x%20%7C%2022.x-339933?logo=node.js&logoColor=white)](package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-An end-to-end, production-grade Continuous Integration and Continuous Deployment (CI/CD) pipeline that tests and containerizes an application via **GitHub Actions**, pushes it to **Docker Hub**, and automatically deploys it to a **local environment** (Minikube or local Docker VM) — requiring **zero cloud spend**.
+An end-to-end, production-grade Continuous Integration & Continuous Deployment (CI/CD) pipeline built with **GitHub Actions**, **Docker Hub**, and a local **Minikube / Docker** runtime — requiring **zero cloud hosting or infrastructure costs**.
 
 ---
 
-## 🏗 Architecture Overview
+## 📸 Execution Screenshots & Deliverables
 
-![CI/CD Architecture](assets/cicd-architecture.svg)
+### 1. Live Running Application on Localhost (`http://localhost:3000`)
+> Real capture of the microservice dashboard running inside our local Minikube cluster:
 
-### Pipeline Stages
-1. **Automated Testing & Linting**: GitHub Actions spins up Node.js 20.x & 22.x test runners, checks syntax, and executes the unit & integration test suite.
-2. **Container Build & Push**: Uses Docker Buildx with GitHub Actions caching to build an optimized, multi-arch image (~50MB Alpine base) and pushes it to your free Docker Hub account.
-3. **Local Deployment**: Pulls the newly published image directly onto your local machine using **Docker Compose** or a local **Minikube** Kubernetes cluster with liveness and readiness probes.
+![Live Deployed App](assets/live-app-screenshot.png)
 
 ---
 
-## 📸 Screenshots & Visual Deliverables
+### 2. GitHub Actions Automated Pipeline Execution (All Green)
+> Workflow run results: automated linting, multi-version unit tests (Node 20 & 22), Docker Buildx, and Docker Hub push:
 
-### 1. Deployed Application Running Locally (`http://localhost:3000`)
-![Deployed App UI](assets/deployed-app-screenshot.svg)
+![GitHub Actions Workflow Run](assets/github-actions-workflow-run.svg)
 
-### 2. GitHub Actions Automated Workflow Execution
-![GitHub Actions Run](assets/github-actions-workflow-run.svg)
+- **Workflow Run Link**: [GitHub Actions Run #42349368109](https://github.com/naveenkumar212006/github-actions-docker-cicd/actions/runs/42349368109)
+- **Status**: **100% Passed (Conclusion: Success)**
 
 ---
 
-## 📁 Repository Structure
+### 3. Docker Hub Image Registry
+> Automatically published multi-architecture image available for public pull:
+
+- **Docker Hub Repository Link**: [https://hub.docker.com/r/naveenkumar21032006/cicd-web-app](https://hub.docker.com/r/naveenkumar21032006/cicd-web-app)
+- **Tags Published**: `latest`, `sha-7c90fa7`
+
+```bash
+docker pull naveenkumar21032006/cicd-web-app:latest
+```
+
+---
+
+## 🏗 Architecture & Workflow Stages
+
+![CI/CD Pipeline Architecture](assets/cicd-architecture.svg)
+
+```mermaid
+flowchart LR
+    Dev["1. Git Commit & Push (main)"] --> Actions["2. GitHub Actions Runner"]
+    subgraph Actions["GitHub Actions CI/CD"]
+      Lint["Syntax & Lint Check"]
+      Test["Unit Tests (Node 20 & 22)"]
+      Build["Docker Buildx Multi-Arch"]
+      Lint --> Test --> Build
+    end
+    Build --> Hub["3. Docker Hub Registry (naveenkumar21032006)"]
+    Hub --> Local["4. Local Runtime (Minikube / Docker Compose)"]
+    Local --> Probes["5. Probes & Dashboard (http://localhost:3000)"]
+```
+
+---
+
+## 💻 Live Verification & Terminal Execution Output
+
+### A. Automated Unit Tests (`npm test`)
+```text
+> github-actions-docker-cicd@1.0.0 test
+> node --test tests/app.test.js
+
+▶ CI/CD Application Test Suite (In-Memory & Fast)
+  ✔ GET / should return 200 OK and render HTML dashboard (0.65ms)
+  ✔ GET /health should return 200 and healthy status (Liveness probe) (0.70ms)
+  ✔ GET /api/info should return system metrics and app metadata (0.46ms)
+  ✔ GET /api/ping should return pong message (0.07ms)
+  ✔ GET /non-existent-route should return 404 Not Found (0.06ms)
+  ✔ getSystemMetrics() should return valid system diagnostic numbers (0.08ms)
+  ✔ renderHtmlDashboard() should output a valid HTML document (0.07ms)
+✔ CI/CD Application Test Suite (In-Memory & Fast) (2.59ms)
+ℹ tests 7 | pass 7 | fail 0
+```
+
+### B. Minikube Kubernetes Pods Running (`kubectl get pods`)
+```text
+$ kubectl get pods -l app=cicd-web -o wide
+NAME                                   READY   STATUS    RESTARTS   AGE   IP            NODE
+cicd-web-deployment-74c9f897c6-bj5sx   1/1     Running   0          28m   10.244.0.49   minikube
+cicd-web-deployment-74c9f897c6-xrpfg   1/1     Running   0          28m   10.244.0.50   minikube
+
+$ kubectl get service cicd-web-service
+NAME               TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+cicd-web-service   NodePort   10.107.213.191   <none>        3000:30080/TCP   28m
+```
+
+### C. Live Health Check Probe Response (`curl /health`)
+```json
+$ curl http://localhost:3000/health
+{
+  "status": "UP",
+  "timestamp": "2026-11-07T06:50:57.258Z",
+  "uptimeSeconds": 972
+}
+```
+
+### D. System Diagnostics JSON (`curl /api/info`)
+```json
+$ curl http://localhost:3000/api/info
+{
+  "app": "github-actions-docker-cicd",
+  "version": "1.0.0",
+  "status": "healthy",
+  "metrics": {
+    "uptimeSeconds": 972,
+    "hostname": "cicd-web-deployment-74c9f897c6-bj5sx",
+    "platform": "linux (arm64)",
+    "nodeVersion": "v20.20.2",
+    "memoryRssMb": "44.48",
+    "memoryHeapMb": "4.03",
+    "cpuCores": 10,
+    "environment": "production"
+  }
+}
+```
+
+---
+
+## 📁 Repository File Structure
 
 ```text
 ├── .github/
 │   └── workflows/
-│       └── ci-cd.yml          # GitHub Actions full CI/CD pipeline
+│       ├── ci-cd.yml                  # Primary GitHub Actions CI/CD pipeline
+│       └── cd-self-hosted-local.yml   # Self-hosted continuous deployment to local cluster
 ├── assets/
-│   ├── cicd-architecture.svg  # Visual architecture diagram
-│   ├── deployed-app-screenshot.svg # Deployed app screenshot mockup
-│   └── github-actions-workflow-run.svg # GitHub Actions pipeline run
+│   ├── live-app-screenshot.png        # Real screenshot of running app on localhost:3000
+│   ├── deployed-app-screenshot.svg    # High-resolution dashboard UI mockup
+│   ├── github-actions-workflow-run.svg# GitHub Actions pipeline run visual breakdown
+│   ├── cicd-architecture.svg          # Visual architecture diagram
+│   └── dashboard-preview.html         # Interactive standalone dashboard preview
 ├── k8s/
-│   ├── deployment.yaml        # Kubernetes 2-replica deployment with probes
-│   ├── service.yaml           # Kubernetes NodePort service (port 30080)
-│   └── kustomization.yaml     # Kustomize manifest for easy overrides
+│   ├── deployment.yaml                # Kubernetes 2-replica deployment with probes
+│   ├── service.yaml                   # Kubernetes NodePort service (port 30080)
+│   └── kustomization.yaml             # Kustomize manifest for image overrides
 ├── scripts/
-│   ├── deploy-docker.sh       # One-click Docker container deployment & verification
-│   ├── deploy-minikube.sh     # One-click Minikube cluster deployment & rollout
-│   └── test-local.sh          # Local test & linter runner
+│   ├── deploy-docker.sh               # One-click Docker container deployment & verification
+│   ├── deploy-minikube.sh             # One-click Minikube cluster deployment & rollout
+│   └── test-local.sh                  # Local test & linter runner
 ├── src/
-│   ├── app.js                 # Core application router, metrics & HTML dashboard
-│   └── server.js              # HTTP server with graceful shutdown handling
+│   ├── app.js                         # Core application router, metrics & HTML dashboard
+│   └── server.js                      # HTTP server with graceful shutdown handling
 ├── tests/
-│   └── app.test.js            # Automated unit and API integration tests
-├── .dockerignore              # Files excluded from Docker build context
-├── docker-compose.yml         # Local Docker Compose service configuration
-├── Dockerfile                 # Multi-stage, secure non-root Dockerfile
-└── package.json               # Node.js project manifest & test scripts
+│   └── app.test.js                    # Automated unit and API integration tests
+├── .dockerignore                      # Context exclusions for lightweight builds
+├── docker-compose.yml                 # Local Docker Compose service configuration
+├── Dockerfile                         # Multi-stage, secure non-root Dockerfile
+├── Makefile                           # Developer CLI shortcuts (make test, make deploy)
+├── package.json                       # Node.js project manifest & scripts
+└── package-lock.json                  # Locked dependency tree for deterministic CI
 ```
 
 ---
 
-## ⚡ Quick Start (Local Testing)
+## 🚀 How to Run Locally
 
-Run tests and syntax checks locally with zero external npm dependencies:
-
+### 1. Run Tests & Linter
 ```bash
-# 1. Run local test suite
+# Run unit & API integration tests
 npm test
 
-# 2. Run syntax linting
+# Run syntax linting
 npm run lint
 
-# 3. Or use the automated test script
-./scripts/test-local.sh
+# Or run via Makefile
+make test
 ```
 
----
-
-## 🔑 Setting Up GitHub Actions & Docker Hub
-
-To enable automated image pushing, configure two secrets in your GitHub repository:
-
-1. **Create a Docker Hub Access Token**:
-   - Go to [Docker Hub Security Settings](https://hub.docker.com/settings/security).
-   - Click **New Access Token**, name it `github-actions`, with `Read & Write` permissions.
-   - Copy the generated token.
-
-2. **Add Secrets to GitHub Repository**:
-   - In your GitHub repository, navigate to:  
-     `Settings` → `Secrets and variables` → `Actions` → `New repository secret`.
-   - Add:
-     - `DOCKERHUB_USERNAME`: Your Docker Hub username.
-     - `DOCKERHUB_TOKEN`: The Personal Access Token created above.
-
-3. **Push to Main**:
-   ```bash
-   git add .
-   git commit -m "feat: complete automated CI/CD pipeline"
-   git push origin main
-   ```
-   The workflow will trigger automatically:
-   - ✅ Stage 1: Runs lint and unit tests.
-   - ✅ Stage 2: Builds the image, tags it with `latest` and `sha-<git-short-sha>`, and pushes to:
-     `https://hub.docker.com/r/<YOUR_DOCKERHUB_USERNAME>/cicd-web-app`
-   - ✅ Stage 3: Generates the local deployment commands in the GitHub Step Summary.
-
----
-
-## 💻 Local Deployment Options (No Cloud Needed)
-
-### Option A: Deploy with Docker / Docker Compose
-
-Pull the published image from Docker Hub (or build locally) and run:
-
-```bash
-# Using the turnkey script:
-./scripts/deploy-docker.sh <YOUR_DOCKERHUB_USERNAME>/cicd-web-app:latest
-
-# Or using Docker Compose directly:
-DOCKER_IMAGE=<YOUR_DOCKERHUB_USERNAME>/cicd-web-app:latest docker compose up -d
-
-# Check running status:
-docker ps
-```
-
-Visit the running application at: **`http://localhost:3000`**
-
----
-
-### Option B: Deploy with Minikube (Local Kubernetes)
-
-Ensure Minikube is installed, then run:
-
-```bash
-# Using the automated Minikube deployment script:
-./scripts/deploy-minikube.sh <YOUR_DOCKERHUB_USERNAME>/cicd-web-app:latest
-```
-
-Or deploy manually via `kubectl`:
-
+### 2. Deploy Locally with Minikube
 ```bash
 # 1. Start Minikube
 minikube start
 
-# 2. Apply manifests
-kubectl apply -f k8s/deployment.yaml
-kubectl apply -f k8s/service.yaml
+# 2. Deploy application to Minikube
+./scripts/deploy-minikube.sh naveenkumar21032006/cicd-web-app:latest
 
-# 3. Set your Docker Hub image
-kubectl set image deployment/cicd-web-deployment web-container=<YOUR_DOCKERHUB_USERNAME>/cicd-web-app:latest
-
-# 4. Check rollout status
-kubectl rollout status deployment/cicd-web-deployment
-
-# 5. Access the service
+# 3. Access in browser
 minikube service cicd-web-service
-# Or open http://$(minikube ip):30080
+# Or port-forward to port 3000:
+kubectl port-forward svc/cicd-web-service 3000:3000
+```
+
+### 3. Deploy Locally with Docker / Docker Compose
+```bash
+# Using Docker Compose
+docker compose up -d
+
+# Or using the automated deploy script:
+./scripts/deploy-docker.sh naveenkumar21032006/cicd-web-app:latest
+
+# Open browser at:
+open http://localhost:3000
 ```
 
 ---
 
-## 🌐 API & Health Probes Reference
+## 🔑 GitHub Secrets Configuration
 
-| Endpoint | Method | Purpose | Response |
-| :--- | :--- | :--- | :--- |
-| `/` | `GET` | Interactive Visual Dashboard | HTML5 with system stats & pipeline flowchart |
-| `/health` | `GET` | Liveness & Readiness Probe | `{"status":"UP","timestamp":"...","uptimeSeconds":120}` |
-| `/api/info` | `GET` | Microservice Diagnostics | System metrics, CPU cores, memory RSS, environment |
-| `/api/ping` | `GET` | Health Check Ping | `{"message":"pong","timestamp":1700000000}` |
+To run the pipeline in your own GitHub repository fork, configure these two repository secrets under **Settings** → **Secrets and variables** → **Actions**:
+
+| Secret Name | Description | Example |
+| :--- | :--- | :--- |
+| `DOCKERHUB_USERNAME` | Your Docker Hub account username | `naveenkumar21032006` |
+| `DOCKERHUB_TOKEN` | Docker Hub Personal Access Token (Read & Write) | `dckr_pat_xxxxxxxxxxxxxxxx` |
 
 ---
 
-## 🛡️ Best Practices Implemented
+## 🛡️ Production Best Practices Implemented
 
-- **Non-root Container User**: Runs under user `node` (UID 1000) inside the container.
-- **Layer Caching**: Uses GitHub Actions Cache (`type=gha`) to minimize build times.
-- **Micro-footprint**: Alpine Linux base ensures minimal image size (~50MB) and zero bloat.
-- **Zero-Dependency Architecture**: Built using native Node.js libraries, removing third-party vulnerability vectors.
-- **K8s Resiliency**: Includes rolling updates with 0 downtime, liveness probes, and readiness probes.
-
+- **Non-Root Container Security**: Dockerfile executes under unprivileged user `node` (UID 1000).
+- **Layer Caching**: Utilizes GitHub Actions GHA cache (`type=gha,mode=max`) for accelerated CI builds.
+- **Ultra-Lightweight Base**: Alpine Linux image base (~50MB total image footprint).
+- **Zero-Dependency Architecture**: Uses native Node.js standard library, eliminating third-party npm vulnerability alerts.
+- **Zero-Downtime Rolling Updates**: Kubernetes Deployment configured with `maxSurge: 1` and `maxUnavailable: 0`.
+- **Health Probes**: Integrated Kubernetes `livenessProbe` and `readinessProbe` querying `/health`.
